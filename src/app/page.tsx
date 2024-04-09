@@ -1,95 +1,75 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import  Link  from 'next/link'
 
 export default function Home() {
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <main>
+      <div className="py-5 container">
+        <div className="row">
+          <div className="col">
+            Clientes
+          </div>
+          <div className="col">
+            <div className="input-group">
+              <input type="text" className="form-control" id="autoSizingInputGroup" placeholder="Username" />
+              <div className="input-group-text btn btn-primary" style={{ cursor: "pointer" }}>Pesquisar</div>
+            </div>
+          </div>
+          <div className="col">
+            <Link href="/novo" className="btn btn-primary">Novo Cliente</Link>
+          </div>
         </div>
       </div>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
+      <div className="py-3  container">
+
+        <table className="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Nome</th>
+              <th scope="col">Telefone</th>
+              <th scope="col">Pedido</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1,001</td>
+              <td>random</td>
+              <td>data</td>
+              <td>placeholder</td>
+              <td className="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button type="button" className="btn btn-success btn-sm">Success</button>
+                <button type="button" className="btn btn-danger btn-sm">Danger</button>
+                <button type="button" className="btn btn-warning btn-sm">Warning</button>
+              </td>
+            </tr>
+            <tr>
+              <td>1,002</td>
+              <td>placeholder</td>
+              <td>irrelevant</td>
+              <td>visual</td>
+              <td className="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button type="button" className="btn btn-success btn-sm">Success</button>
+                <button type="button" className="btn btn-danger btn-sm">Danger</button>
+                <button type="button" className="btn btn-warning btn-sm">Warning</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <nav aria-label="Page navigation example">
+          <ul className="pagination">
+            <li className="page-item"><a className="page-link" href="#">Previous</a></li>
+            <li className="page-item"><a className="page-link" href="#">1</a></li>
+            <li className="page-item"><a className="page-link" href="#">2</a></li>
+            <li className="page-item"><a className="page-link" href="#">3</a></li>
+            <li className="page-item"><a className="page-link" href="#">Next</a></li>
+          </ul>
+        </nav>
       </div>
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
     </main>
   );
 }
