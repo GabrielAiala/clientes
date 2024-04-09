@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <main>
       <div className="container mt-5">
-        <h1>Nova Cliente</h1>
+        <h1>Novo Cliente</h1>
         <form>
           <div className="mb-3">
             <label htmlFor="nome" className="form-label">Nome</label>
