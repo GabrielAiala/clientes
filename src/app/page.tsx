@@ -50,17 +50,11 @@ export default function Home() {
     <main>
 
       <div className="py-5 container">
-        <div className="row">
+        <div className="row justify-content-between">
           <div className="col">
             Clientes
           </div>
-          <div className="col">
-            <div className="input-group">
-              <input type="text" className="form-control" id="autoSizingInputGroup" placeholder="Username" />
-              <div className="input-group-text btn btn-primary" style={{ cursor: "pointer" }}>Pesquisar</div>
-            </div>
-          </div>
-          <div className="col">
+          <div className="col ">
             <Link href="/novo" className="btn btn-primary">Novo Cliente</Link>
           </div>
         </div>
@@ -94,15 +88,6 @@ export default function Home() {
           </tbody>
         </table>
 
-        <nav aria-label="Page navigation example">
-          <ul className="pagination">
-            <li className="page-item"><a className="page-link" href="#">Previous</a></li>
-            <li className="page-item"><a className="page-link" href="#">1</a></li>
-            <li className="page-item"><a className="page-link" href="#">2</a></li>
-            <li className="page-item"><a className="page-link" href="#">3</a></li>
-            <li className="page-item"><a className="page-link" href="#">Next</a></li>
-          </ul>
-        </nav>
       </div>
 
       {isModelOpen && selectedClient && (
