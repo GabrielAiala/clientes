@@ -5,9 +5,17 @@ import { useEffect, useState } from 'react';
 import { fetchData, deleteData } from './api/metodos';
 import _ from 'lodash';
 
+interface cliente {
+  id: number;
+  nome: string;
+  telefone: number;
+  pedido: string;
+}
+
+
 export default function Home() {
-  const [clientes, setClientes] = useState([]);
-  const [selectedClient, setSelectedClient] = useState({});
+  const [clientes, setClientes] = useState<cliente[]>([]);
+  const [selectedClient, setSelectedClient] = useState<cliente | null>(null);
   const [isModelOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
@@ -16,7 +24,7 @@ export default function Home() {
       .catch((err) => console.log(err));
   }, []);
 
-  const handleOpenModal = (cliente) => {
+  const handleOpenModal = (cliente: cliente) => {
     setSelectedClient(cliente);
     setIsModalOpen(true)
     console.log(isModelOpen, selectedClient)
@@ -25,15 +33,17 @@ export default function Home() {
   const handleClose = () => {
     setIsModalOpen(false);
     setSelectedClient({});
-    
+
   };
 
   const handleDelete = () => {
-    deleteData(`api/clientes/${selectedClient.id}`);
-    let newClients = _.cloneDeep(clientes);
-    _.remove(newClients, (cliente) => cliente.id === selectedClient.id );
-    setClientes(newClients);
-    handleClose();
+    if (selectedClient?.id) {
+      deleteData(`api/clientes/${selectedClient.id}`);
+      let newClients = _.cloneDeep(clientes);
+      _.remove(newClients, (cliente) => cliente.id === selectedClient.id);
+      setClientes(newClients);
+      handleClose();
+    }
   }
 
   return (
