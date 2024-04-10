@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { createData } from "../api/metodos";
 import { useRouter } from 'next/navigation'
 
@@ -12,7 +12,7 @@ export default function Home() {
     pedido: '',
   });
 
-  const handleChange = (e, field) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>, field: string) => {
     const { value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -20,7 +20,7 @@ export default function Home() {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     console.log('aee');
     console.log(formData)
