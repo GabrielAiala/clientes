@@ -32,7 +32,7 @@ export default function Home() {
 
   const handleClose = () => {
     setIsModalOpen(false);
-    setSelectedClient({});
+    setSelectedClient(null);
 
   };
 
