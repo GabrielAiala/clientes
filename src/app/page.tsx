@@ -1,8 +1,44 @@
-import  Link  from 'next/link'
+'use client'
+
+import Link from 'next/link'
+import { useEffect, useState } from 'react';
+import { fetchData, deleteData } from './api/metodos';
+import _ from 'lodash';
 
 export default function Home() {
+  const [clientes, setClientes] = useState([]);
+  const [selectedClient, setSelectedClient] = useState({});
+  const [isModelOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    fetchData('api/clientes')
+      .then((response) => setClientes(response))
+      .catch((err) => console.log(err));
+  }, []);
+
+  const handleOpenModal = (cliente) => {
+    setSelectedClient(cliente);
+    setIsModalOpen(true)
+    console.log(isModelOpen, selectedClient)
+  }
+
+  const handleClose = () => {
+    setIsModalOpen(false);
+    setSelectedClient({});
+    
+  };
+
+  const handleDelete = () => {
+    deleteData(`api/clientes/${selectedClient.id}`);
+    let newClients = _.cloneDeep(clientes);
+    _.remove(newClients, (cliente) => cliente.id === selectedClient.id );
+    setClientes(newClients);
+    handleClose();
+  }
+
   return (
     <main>
+
       <div className="py-5 container">
         <div className="row">
           <div className="col">
@@ -33,28 +69,18 @@ export default function Home() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1,001</td>
-              <td>random</td>
-              <td>data</td>
-              <td>placeholder</td>
-              <td className="d-grid gap-2 d-md-flex justify-content-md-end">
-                <button type="button" className="btn btn-success btn-sm">Success</button>
-                <button type="button" className="btn btn-danger btn-sm">Danger</button>
-                <button type="button" className="btn btn-warning btn-sm">Warning</button>
-              </td>
-            </tr>
-            <tr>
-              <td>1,002</td>
-              <td>placeholder</td>
-              <td>irrelevant</td>
-              <td>visual</td>
-              <td className="d-grid gap-2 d-md-flex justify-content-md-end">
-                <button type="button" className="btn btn-success btn-sm">Success</button>
-                <button type="button" className="btn btn-danger btn-sm">Danger</button>
-                <button type="button" className="btn btn-warning btn-sm">Warning</button>
-              </td>
-            </tr>
+            {clientes.map((cliente) => (
+              <tr key={cliente.id}>
+                <td>{cliente.id}</td>
+                <td>{cliente.nome}</td>
+                <td>{cliente.telefone}</td>
+                <td>{cliente.pedido}</td>
+                <td className="d-grid gap-2 d-md-flex justify-content-md-end">
+                  <button onClick={() => handleOpenModal(cliente)} className="btn btn-danger btn-sm">Deletar</button>
+                </td>
+              </tr>
+            ))}
+
           </tbody>
         </table>
 
@@ -69,6 +95,24 @@ export default function Home() {
         </nav>
       </div>
 
+      {isModelOpen && selectedClient && (
+        <div className="modal" tabIndex={-1} style={{ display: 'block' }}>
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <button onClick={handleClose} className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div className="modal-body">
+                <p>Deseja realmente deletar o {selectedClient.nome}?</p>
+              </div>
+              <div className="modal-footer">
+                <button className="btn btn-secondary" onClick={handleClose}>Fechar</button>
+                <button className="btn btn-danger" onClick={handleDelete}>Deletar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
     </main>
   );
