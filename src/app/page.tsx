@@ -52,10 +52,10 @@ export default function Home() {
       <div className="py-5 container">
         <div className="row justify-content-between">
           <div className="col">
-            Clientes
+            Pedidos
           </div>
           <div className="col ">
-            <Link href="/novo" className="btn btn-primary">Novo Cliente</Link>
+            <Link href="/novo" className="btn btn-primary">Novo pedido</Link>
           </div>
         </div>
       </div>
