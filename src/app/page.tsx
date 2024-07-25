@@ -5,7 +5,10 @@ import { useEffect, useState } from 'react';
 import { fetchData, deleteData } from './api/metodos';
 import _ from 'lodash';
 
-interface cliente {
+import io from 'socket.io-client';
+
+let socket: any;
+interface pedido {
   id: number;
   nome: string;
   telefone: number;
@@ -14,18 +17,20 @@ interface cliente {
 
 
 export default function Home() {
-  const [clientes, setClientes] = useState<cliente[]>([]);
-  const [selectedClient, setSelectedClient] = useState<cliente | null>(null);
+  const [pedidos, setPedidos] = useState<pedido[]>([]);
+  const [selectedClient, setSelectedClient] = useState<pedido | null>(null);
   const [isModelOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    fetchData('api/clientes')
-      .then((response) => setClientes(response))
-      .catch((err) => console.log(err));
+    socketInitializer();
+
+    // fetchData('api/clientes')
+    //   .then((response) => setClientes(response))
+    //   .catch((err) => console.log(err));
   }, []);
 
-  const handleOpenModal = (cliente: cliente) => {
-    setSelectedClient(cliente);
+  const handleOpenModal = (pedido: pedido) => {
+    setSelectedClient(pedido);
     setIsModalOpen(true)
     console.log(isModelOpen, selectedClient)
   }
@@ -36,14 +41,42 @@ export default function Home() {
 
   };
 
+  const socketInitializer = async () => {
+    socket = io('http://localhost:4000');
+
+    socket.on('connect', () => {
+      console.log('Conectado ao Socket.IO');
+    });
+
+    socket.on('pedidoAtualizado', (data) => {
+      setPedidos((prevPedidos) => {
+        const index = prevPedidos.findIndex(p => p.id === data.id);
+        if (index !== -1) {
+          const newPedidos = [...prevPedidos];
+          newPedidos[index] = data;
+          return newPedidos;
+        }
+        return [...prevPedidos, data];
+      });
+    });
+
+    const response = await fetch('http://localhost:4000/pedidos');
+    const data = await response.json();
+    setPedidos(data);
+  };
+
+  const handleMarcarPronto = (id: number, status: string) => {
+    socket.emit('atualizarPedido', { id, status });
+};
+
   const handleDelete = () => {
-    if (selectedClient?.id) {
-      deleteData(`api/clientes/${selectedClient.id}`);
-      let newClients = _.cloneDeep(clientes);
-      _.remove(newClients, (cliente) => cliente.id === selectedClient.id);
-      setClientes(newClients);
-      handleClose();
-    }
+    // if (selectedClient?.id) {
+    //   deleteData(`api/clientes/${selectedClient.id}`);
+    //   let newClients = _.cloneDeep(clientes);
+    //   _.remove(newClients, (cliente) => cliente.id === selectedClient.id);
+    //   setClientes(newClients);
+    //   handleClose();
+    // }
   }
 
   return (
@@ -73,14 +106,17 @@ export default function Home() {
             </tr>
           </thead>
           <tbody>
-            {clientes.map((cliente) => (
-              <tr key={cliente.id}>
-                <td>{cliente.id}</td>
-                <td>{cliente.nome}</td>
-                <td>{cliente.telefone}</td>
-                <td>{cliente.pedido}</td>
+            {pedidos.map((pedido) => (
+              <tr key={pedido.id}>
+                <td>{pedido.id}</td>
+                <td>{pedido.nome}</td>
+                <td>{pedido.telefone}</td>
+                <td>{pedido.pedido}</td>
                 <td className="d-grid gap-2 d-md-flex justify-content-md-end">
-                  <button onClick={() => handleOpenModal(cliente)} className="btn btn-danger btn-sm">Deletar</button>
+                  {pedido.status !== "Pronto" && (
+                    <button onClick={() => handleMarcarPronto(pedido.id, 'Pronto')} className="btn btn-success btn-sm">Pronto</button>
+                  )}
+                  <button onClick={() => handleOpenModal(pedido)} className="btn btn-danger btn-sm">Deletar</button>
                 </td>
               </tr>
             ))}

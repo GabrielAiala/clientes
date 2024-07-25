@@ -1,7 +1,7 @@
 'use client'
 
 import { ChangeEvent, useState } from "react";
-import { createData } from "../api/metodos";
+// import { createData } from "../api/metodos";
 import { useRouter } from 'next/navigation'
 
 export default function Home() {
@@ -24,11 +24,11 @@ export default function Home() {
     e.preventDefault();
     console.log('aee');
     console.log(formData)
-    createData('api/clientes', formData)
-      .then(() => {
-        router.push('/');
-      })
-      .catch((error) => console.log('erro',error));
+    // createData('api/clientes', formData)
+    //   .then(() => {
+    //     router.push('/');
+    //   })
+    //   .catch((error) => console.log('erro',error));
   }
   
 
