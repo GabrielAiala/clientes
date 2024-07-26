@@ -18,21 +18,7 @@ export default function RootLayout({
     <html lang="en">
 
       <body className={inter.className}>
-        <header className="p-3 bg-dark text-white">
-          <div className="container">
-            <div className="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
 
-              <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 mb-md-0">
-                <li>
-                  <a className="d-flex align-items-center col-lg-4 mb-2 mb-lg-0 link-dark text-decoration-none dropdown-toggle">
-                    <img src="/logo.jpeg" alt="Logo" className="rounded-circle" width={32}/>
-                  </a>
-                </li>
-              </ul>
-
-            </div>
-          </div>
-        </header>
         {children}
       </body>
     </html >

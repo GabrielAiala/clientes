@@ -1,9 +1,11 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'https://api-clientes-three.vercel.app', // substitua pela URL da sua API
+  baseURL: 'https://simple-api-test-pied.vercel.app/', // substitua pela URL da sua API
   headers: {
-    'Access-Control-Allow-Origin': '*', // ou defina a origem permitida
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': '*'
   },
 });
 

@@ -1,5 +1,14 @@
 import axios from './axios';
 
+interface pedido {
+  id: number;
+  nome: string;
+  telefone: number;
+  pedido: string;
+  isdone: boolean;
+  show: boolean;
+}
+
 // Método para fazer uma requisição GET
 export const fetchData = async (endpoint: string) => {
   try {
@@ -21,6 +30,27 @@ export const createData = async (endpoint: string, newData: any) => {
     throw error;
   }
 };
+
+export const hidePedido = async ({id, show, isdone, ...data}: pedido) => {
+  try {
+    const response = await axios.put(`/api/dados/${id}`, {...data, show: false, "isDone": isdone });
+    return response.data;
+  } catch (error) {
+    console.error('Error updating data:', error);
+    throw error;
+  }
+};
+
+export const marcarPedidoPronto = async ({id, isdone, ...data}: pedido) => {
+  try {
+    const response = await axios.put(`/api/dados/${id}`, {...data, "isDone": true });
+    return response.data;
+  } catch (error) {
+    console.error('Error updating data:', error);
+    throw error;
+  }
+};
+
 
 // Método para fazer uma requisição DELETE
 export const deleteData = async (endpoint: string) => {

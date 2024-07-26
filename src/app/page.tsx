@@ -2,84 +2,76 @@
 
 import Link from 'next/link'
 import { useEffect, useState } from 'react';
-import { fetchData, deleteData } from './api/metodos';
+import { fetchData, hidePedido, marcarPedidoPronto } from './api/metodos';
 import _ from 'lodash';
 
-import io from 'socket.io-client';
-
-let socket: any;
 interface pedido {
   id: number;
   nome: string;
   telefone: number;
   pedido: string;
+  isdone: boolean;
+  show: boolean;
 }
-
 
 export default function Home() {
   const [pedidos, setPedidos] = useState<pedido[]>([]);
-  const [selectedClient, setSelectedClient] = useState<pedido | null>(null);
-  const [isModelOpen, setIsModalOpen] = useState(false);
+
+  const fetchPedidos = async () => {
+    try {
+      const response = await fetchData('api/dados');
+      setPedidos(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
-    socketInitializer();
-
-    // fetchData('api/clientes')
-    //   .then((response) => setClientes(response))
-    //   .catch((err) => console.log(err));
+    fetchPedidos();
+    const interval = setInterval(() => {
+      fetchPedidos();
+    }, 5000);
+    
+    return () => clearInterval(interval);// Intervalo de 5 segundos (5000 ms)
   }, []);
 
-  const handleOpenModal = (pedido: pedido) => {
-    setSelectedClient(pedido);
-    setIsModalOpen(true)
-    console.log(isModelOpen, selectedClient)
-  }
-
-  const handleClose = () => {
-    setIsModalOpen(false);
-    setSelectedClient(null);
+  const handleMarcarPronto = (selectedPedido: pedido) => {
+    let newPedidos = _.cloneDeep(pedidos);
+    newPedidos = newPedidos.map((pedido) => {
+      if (pedido.id === selectedPedido.id) {
+        pedido.isdone = true;
+      }
+      return pedido;
+    });
+    marcarPedidoPronto(selectedPedido)
+    setPedidos(newPedidos);
 
   };
 
-  const socketInitializer = async () => {
-    socket = io('http://localhost:4000');
-
-    socket.on('connect', () => {
-      console.log('Conectado ao Socket.IO');
-    });
-
-    socket.on('pedidoAtualizado', (data) => {
-      setPedidos((prevPedidos) => {
-        const index = prevPedidos.findIndex(p => p.id === data.id);
-        if (index !== -1) {
-          const newPedidos = [...prevPedidos];
-          newPedidos[index] = data;
-          return newPedidos;
-        }
-        return [...prevPedidos, data];
-      });
-    });
-
-    const response = await fetch('http://localhost:4000/pedidos');
-    const data = await response.json();
-    setPedidos(data);
-  };
-
-  const handleMarcarPronto = (id: number, status: string) => {
-    socket.emit('atualizarPedido', { id, status });
-};
-
-  const handleDelete = () => {
-    // if (selectedClient?.id) {
-    //   deleteData(`api/clientes/${selectedClient.id}`);
-    //   let newClients = _.cloneDeep(clientes);
-    //   _.remove(newClients, (cliente) => cliente.id === selectedClient.id);
-    //   setClientes(newClients);
-    //   handleClose();
-    // }
+  const handleEsconderPedido = (selectedPedido: pedido) => {
+    hidePedido(selectedPedido);
+    let newPedidos = _.cloneDeep(pedidos);
+    _.remove(newPedidos, (pedido) => pedido.id === selectedPedido.id);
+    setPedidos(newPedidos);
   }
 
   return (
+    <>
+    <header className="p-3 bg-dark text-white">
+    <div className="container">
+      <div className="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+
+        <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 mb-md-0">
+          <li>
+            <a className="d-flex align-items-center col-lg-4 mb-2 mb-lg-0 link-dark text-decoration-none dropdown-toggle">
+              <img src="/logo.jpeg" alt="Logo" className="rounded-circle" width={32}/>
+            </a>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+  </header>
     <main>
 
       <div className="py-5 container">
@@ -113,38 +105,18 @@ export default function Home() {
                 <td>{pedido.telefone}</td>
                 <td>{pedido.pedido}</td>
                 <td className="d-grid gap-2 d-md-flex justify-content-md-end">
-                  {pedido.status !== "Pronto" && (
-                    <button onClick={() => handleMarcarPronto(pedido.id, 'Pronto')} className="btn btn-success btn-sm">Pronto</button>
+                  {!pedido.isdone && (
+                    <button onClick={() => handleMarcarPronto(pedido)} className="btn btn-success btn-sm">Pronto</button>
                   )}
-                  <button onClick={() => handleOpenModal(pedido)} className="btn btn-danger btn-sm">Deletar</button>
+                  <button onClick={() => handleEsconderPedido(pedido)} className="btn btn-danger btn-sm">Esconder</button>
                 </td>
               </tr>
             ))}
 
           </tbody>
         </table>
-
       </div>
-
-      {isModelOpen && selectedClient && (
-        <div className="modal" tabIndex={-1} style={{ display: 'block' }}>
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <button onClick={handleClose} className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div className="modal-body">
-                <p>Deseja realmente deletar o {selectedClient.nome}?</p>
-              </div>
-              <div className="modal-footer">
-                <button className="btn btn-secondary" onClick={handleClose}>Fechar</button>
-                <button className="btn btn-danger" onClick={handleDelete}>Deletar</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
     </main>
+    </>
   );
 }

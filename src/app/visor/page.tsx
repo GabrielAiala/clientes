@@ -1,60 +1,49 @@
 'use client'
-import { useState, useEffect, FormEvent } from 'react';
-import io from 'socket.io-client';
+import { useState, useEffect } from 'react';
+import { fetchData } from '../api/metodos';
 
-let socket: any;
 
 interface pedido {
   id: number;
   nome: string;
-  pedido: number;
-  status: string;
+  telefone: string;
+  pedido: string;
+  isdone: boolean;
+  show: boolean;
 }
 
 const Home = () => {
-  const [pedido, setPedido] = useState<pedido>();
   const [pedidos, setPedidos] = useState<pedido[]>([]);
   const [prontos, setPronto] = useState<pedido[]>([]);
   const [preparo, setPreparo] = useState<pedido[]>([]);
 
+  const fetchPedidos = async () => {
+    try {
+      const response = await fetchData('api/dados');
+      setPedidos(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
-    socketInitializer();
-
-
+    fetchPedidos();
+    const interval = setInterval(() => {
+      fetchPedidos();
+    }, 5000);
+    
+    return () => clearInterval(interval);// Intervalo de 5 segundos (5000 ms)
   }, []);
 
   useEffect(() => {
     console.log(pedidos)
-    const prontos = pedidos.filter(pedido => pedido.status === 'Pronto');
-    const emPreparo = pedidos.filter(pedido => pedido.status !== 'Pronto');
+    const prontos = pedidos.filter(pedido => pedido.isdone);
+    const emPreparo = pedidos.filter(pedido => !pedido.isdone);
 
     setPronto(prontos);
     setPreparo(emPreparo);
   }, [pedidos])
 
-  const socketInitializer = async () => {
-    socket = io('http://localhost:4000');
-
-    socket.on('connect', () => {
-      console.log('Conectado ao Socket.IO');
-    });
-
-    socket.on('pedidoAtualizado', (data) => {
-      setPedidos((prevPedidos) => {
-        const index = prevPedidos.findIndex(p => p.id === data.id);
-        if (index !== -1) {
-          const newPedidos = [...prevPedidos];
-          newPedidos[index] = data;
-          return newPedidos;
-        }
-        return [...prevPedidos, data];
-      });
-    });
-
-    const response = await fetch('http://localhost:4000/pedidos');
-    const data = await response.json();
-    setPedidos(data);
-  };
 
   return (
     <div className="container">
@@ -83,7 +72,7 @@ const Home = () => {
           <div className="row row-cols-2">
             {preparo.map((pedido) => (
               <div className="col" key={pedido.id}>
-                <p className="text-center">{pedido.pedido}</p>
+                <p className="text-center">{pedido.telefone.substr(pedido.telefone.length-4, 4)}</p>
               </div>
             ))}
           </div>
@@ -97,27 +86,12 @@ const Home = () => {
           <div className="row row-cols-2">
             {prontos.map((pedido) => (
               <div className="col" key={pedido.id}>
-                <p className="text-center">{pedido.pedido}</p>
+                <p className="text-center">{pedido.telefone.substr(pedido.telefone.length-4, 4)}</p>
               </div>
             ))}
           </div>
         </div>
       </div>
-      {/* <ul>
-        {preparo.map((pedido) => (
-          <li key={pedido.id}>
-            {pedido.pedido}
-          </li>
-        ))}
-      </ul>
-      Prontos
-      <ul>
-        {prontos.map((pedido) => (
-          <li key={pedido.id}>
-            {pedido.pedido}
-          </li>
-        ))}
-      </ul> */}
     </div>
   );
 };

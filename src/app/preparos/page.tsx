@@ -1,6 +1,5 @@
 'use client'
 import { useState, useEffect, FormEvent } from 'react';
-import io from 'socket.io-client';
 
 let socket: any;
 
@@ -8,33 +7,6 @@ const Home = () => {
     const [pedido, setPedido] = useState('');
     const [pedidos, setPedidos] = useState([]);
 
-    useEffect(() => {
-        socketInitializer();
-    }, []);
-
-    const socketInitializer = async () => {
-        socket = io('http://localhost:4000');
-
-        socket.on('connect', () => {
-            console.log('Conectado ao Socket.IO');
-        });
-
-        socket.on('pedidoAtualizado', (data) => {
-            setPedidos((prevPedidos) => {
-                const index = prevPedidos.findIndex(p => p.id === data.id);
-                if (index !== -1) {
-                    const newPedidos = [...prevPedidos];
-                    newPedidos[index] = data;
-                    return newPedidos;
-                }
-                return [...prevPedidos, data];
-            });
-        });
-
-        const response = await fetch('http://localhost:4000/pedidos');
-        const data = await response.json();
-        setPedidos(data);
-    };
 
     const enviarPedido = (event: FormEvent) => {
         event.preventDefault();
