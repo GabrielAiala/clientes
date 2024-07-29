@@ -33,7 +33,7 @@ export const createData = async (endpoint: string, newData: any) => {
 
 export const hidePedido = async ({id, show, isDone, ...data}: pedido) => {
   try {
-    const response = await axios.put(`/api/clientes/${id}`, {...data, show: false, "isDone": isdone });
+    const response = await axios.put(`/api/clientes/${id}`, {...data, show: false, "isDone": isDone });
     return response.data;
   } catch (error) {
     console.error('Error updating data:', error);
