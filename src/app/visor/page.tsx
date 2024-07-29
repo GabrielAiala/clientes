@@ -19,8 +19,8 @@ const Home = () => {
 
   const fetchPedidos = async () => {
     try {
-      const response = await fetchData('api/dados');
-      setPedidos(response.data);
+      const response = await fetchData('api/clientes');
+      setPedidos(response);
     } catch (err) {
       console.log(err);
     }
