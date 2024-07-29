@@ -5,7 +5,7 @@ interface pedido {
   nome: string;
   telefone: number;
   pedido: string;
-  isdone: boolean;
+  isDone: boolean;
   show: boolean;
 }
 
@@ -31,9 +31,9 @@ export const createData = async (endpoint: string, newData: any) => {
   }
 };
 
-export const hidePedido = async ({id, show, isdone, ...data}: pedido) => {
+export const hidePedido = async ({id, show, isDone, ...data}: pedido) => {
   try {
-    const response = await axios.put(`/api/dados/${id}`, {...data, show: false, "isDone": isdone });
+    const response = await axios.put(`/api/clientes/${id}`, {...data, show: false, "isDone": isdone });
     return response.data;
   } catch (error) {
     console.error('Error updating data:', error);
@@ -41,9 +41,9 @@ export const hidePedido = async ({id, show, isdone, ...data}: pedido) => {
   }
 };
 
-export const marcarPedidoPronto = async ({id, isdone, ...data}: pedido) => {
+export const marcarPedidoPronto = async ({id, isDone, ...data}: pedido) => {
   try {
-    const response = await axios.put(`/api/dados/${id}`, {...data, "isDone": true });
+    const response = await axios.put(`/api/clientes/${id}`, {...data, "isDone": true });
     return response.data;
   } catch (error) {
     console.error('Error updating data:', error);

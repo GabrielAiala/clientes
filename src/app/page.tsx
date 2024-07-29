@@ -10,7 +10,7 @@ interface pedido {
   nome: string;
   telefone: number;
   pedido: string;
-  isdone: boolean;
+  isDone: boolean;
   show: boolean;
 }
 
@@ -19,8 +19,8 @@ export default function Home() {
 
   const fetchPedidos = async () => {
     try {
-      const response = await fetchData('api/dados');
-      setPedidos(response.data);
+      const response = await fetchData('api/clientes');
+      setPedidos(response);
     } catch (err) {
       console.log(err);
     }
@@ -39,7 +39,7 @@ export default function Home() {
     let newPedidos = _.cloneDeep(pedidos);
     newPedidos = newPedidos.map((pedido) => {
       if (pedido.id === selectedPedido.id) {
-        pedido.isdone = true;
+        pedido.isDone = true;
       }
       return pedido;
     });
@@ -105,7 +105,7 @@ export default function Home() {
                 <td>{pedido.telefone}</td>
                 <td>{pedido.pedido}</td>
                 <td className="d-grid gap-2 d-md-flex justify-content-md-end">
-                  {!pedido.isdone && (
+                  {!pedido.isDone && (
                     <button onClick={() => handleMarcarPronto(pedido)} className="btn btn-success btn-sm">Pronto</button>
                   )}
                   <button onClick={() => handleEsconderPedido(pedido)} className="btn btn-danger btn-sm">Esconder</button>

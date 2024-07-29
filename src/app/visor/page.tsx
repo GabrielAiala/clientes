@@ -8,7 +8,7 @@ interface pedido {
   nome: string;
   telefone: string;
   pedido: string;
-  isdone: boolean;
+  isDone: boolean;
   show: boolean;
 }
 
@@ -31,14 +31,14 @@ const Home = () => {
     const interval = setInterval(() => {
       fetchPedidos();
     }, 5000);
-    
+
     return () => clearInterval(interval);// Intervalo de 5 segundos (5000 ms)
   }, []);
 
   useEffect(() => {
     console.log(pedidos)
-    const prontos = pedidos.filter(pedido => pedido.isdone);
-    const emPreparo = pedidos.filter(pedido => !pedido.isdone);
+    const prontos = pedidos.filter(pedido => pedido.isDone);
+    const emPreparo = pedidos.filter(pedido => !pedido.isDone);
 
     setPronto(prontos);
     setPreparo(emPreparo);
@@ -47,50 +47,92 @@ const Home = () => {
 
   return (
     <div className="container">
-      <div className="row pt-4 align-items-center">
-        <div className="col ">
-          <img src="/logo.jpeg" alt="Logo" className="rounded-circle float-end" width={32} />
-        </div>
-        <div className="col col-auto me-auto">
-          <h4 className="text-center">ESTAÇÃO DE CAFE</h4>
-          <h4 className="text-center"><strong>GETBOTS</strong></h4>
-        </div>
-        <div className="col me-auto">
-          <img src="/logo.jpeg" alt="Logo" className="rounded-circle float-start" width={32} />
-        </div>
-      </div>
-      <div className="py-4">
-        <p className="text-center" style={{ lineHeight: 0 }}>Acompanhe seu pedido ao vivo.</p>
-        <p className="text-center" style={{ lineHeight: 0 }}>Visualize o final do número do seu telefone.</p>
-      </div>
+
       <div className="row">
-        <div className="col">
+        <div className="col my-5">
+
+          <div className="row justify-content-center">
+            <div style={{ maxWidth: "48px" }}>
+              <img src="/logo.jpeg" alt="Logo" className="rounded-circle" width={48} />
+            </div>
+          </div>
           <div className="row">
-            <p className="text-center">Em preparo</p>
+            <p className="fw-bold text-center">Estação de café</p>
+
+
+            <div className="row justify-content-center">
+              <div style={{ maxWidth: "48px" }}>
+                <img src="/logo.jpeg" alt="Logo" className="rounded-circle" width={48} />
+              </div>
+            </div>
+
+            <p className="fw-bold fs-4 ">Peça agora seu café</p>
+
+            <div className="col">
+              <div className="row">
+                <div className="col">
+                  <div className="row">
+                    <p> 1. Escaneie o qr code</p>
+                  </div>
+                  <div className="row">
+                    <div className="row justify-content-center">
+                      <div style={{ maxWidth: "48px" }}>
+                        <img src="/logo.jpeg" alt="Logo" className="rounded-circle" width={48} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="col">
+                  <div className="row">
+                    <p> 2. Escolha sua bebida pelo WhatsApp</p>
+                  </div>
+                  <div className="row">
+                    <div className="row justify-content-center">
+                      <div style={{ maxWidth: "48px" }}>
+                        <img src="/logo.jpeg" alt="Logo" className="rounded-circle" width={48} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div className="row row-cols-2">
-            {preparo.map((pedido) => (
-              <div className="col" key={pedido.id}>
-                <p className="text-center">{pedido.telefone.substr(pedido.telefone.length-4, 4)}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div style={{ border: 'solid 1px black', height: '300px', width: '0', padding: '0' }}></div>
-        <div className="col">
-          <div className="row">
-            <p className="text-center">Pronto</p>
-          </div>
 
-          <div className="row row-cols-2">
-            {prontos.map((pedido) => (
-              <div className="col" key={pedido.id}>
-                <p className="text-center">{pedido.telefone.substr(pedido.telefone.length-4, 4)}</p>
+        </div>
+        <div className="col py-5 mt-5">
+          <p className="text-center">Acompanhe seu pedido.</p>
+          <div className="row">
+            <div className="col">
+              <div className="row">
+                <p className="text-center">Em preparo</p>
               </div>
-            ))}
+              <div className="row row-cols-2">
+                {preparo.map((pedido) => (
+                  <div className="col" key={pedido.id}>
+                    <p className="text-center">{pedido.telefone.substr(pedido.telefone.length - 4, 4)}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div style={{ border: 'solid 1px black', height: '300px', width: '0', padding: '0' }}></div>
+            <div className="col">
+              <div className="row">
+                <p className="text-center">Prontas!</p>
+              </div>
+
+              <div className="row row-cols-2">
+                {prontos.map((pedido) => (
+                  <div className="col" key={pedido.id}>
+                    <p className="text-center">{pedido.telefone.substr(pedido.telefone.length - 4, 4)}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
+
       </div>
     </div>
   );
