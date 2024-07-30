@@ -41,9 +41,9 @@ export const hidePedido = async ({id, show, isDone, ...data}: pedido) => {
   }
 };
 
-export const marcarPedidoPronto = async ({id, isDone, ...data}: pedido) => {
+export const marcarPedidoPronto = async ({id}: pedido) => {
   try {
-    const response = await axios.put(`/api/clientes/${id}`, {...data, "isDone": true });
+    const response = await axios.put(`/api/pronto/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error updating data:', error);
