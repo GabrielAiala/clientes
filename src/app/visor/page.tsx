@@ -46,7 +46,7 @@ const Home = () => {
 
 
   return (
-    <div className="container">
+    <div className="container align-content-center" style={{height: '100vh'}}>
 
       <div className="row">
         <div className="col my-5">
