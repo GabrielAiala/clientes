@@ -44,6 +44,8 @@ const Home = () => {
     setPreparo(emPreparo);
   }, [pedidos])
 
+  const FONT_SIZE = "2rem"
+
 
   return (
     <div className="container align-content-center" style={{height: '100vh'}}>
@@ -102,16 +104,16 @@ const Home = () => {
 
         </div>
         <div className="col py-5 mt-5">
-          <h3 className="text-center">Acompanhe seu pedido.</h3>
+          <h2 className="text-center">Acompanhe seu pedido.</h2>
           <div className="row">
             <div className="col">
               <div className="row">
-                <p className="text-center fs-5">Em preparo</p>
+                <p className="text-center" style={{fontSize: FONT_SIZE}}>Em preparo</p>
               </div>
               <div className="row row-cols-2">
                 {preparo.map((pedido) => (
                   <div className="col" key={pedido.id}>
-                    <p className="text-center fs-5">{pedido.id}</p>
+                    <p className="text-center" style={{fontSize: FONT_SIZE}}>{pedido.id}</p>
                   </div>
                 ))}
               </div>
@@ -119,13 +121,13 @@ const Home = () => {
             <div style={{ border: 'solid 1px black', height: '600px', width: '0', padding: '0' }}></div>
             <div className="col">
               <div className="row">
-                <p className="text-center fs-5">Prontas!</p>
+                <p className="text-center" style={{fontSize: FONT_SIZE}}>Prontas!</p>
               </div>
 
               <div className="row row-cols-2">
                 {prontos.map((pedido) => (
                   <div className="col" key={pedido.id}>
-                    <p className="text-center fs-5">{pedido.id}</p>
+                    <p className="text-center" style={{fontSize: FONT_SIZE}}>{pedido.id}</p>
                   </div>
                 ))}
               </div>
