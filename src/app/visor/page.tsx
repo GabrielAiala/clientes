@@ -37,8 +37,12 @@ const Home = () => {
 
   useEffect(() => {
     console.log(pedidos)
-    const prontos = pedidos.filter(pedido => pedido.isDone);
-    const emPreparo = pedidos.filter(pedido => !pedido.isDone);
+    const prontos = pedidos.filter(pedido => pedido.isDone)
+    .slice(0, 20);
+
+    const emPreparo = pedidos.filter(pedido => !pedido.isDone)
+    .slice(0, 20);
+
 
     setPronto(prontos);
     setPreparo(emPreparo);
