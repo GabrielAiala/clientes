@@ -51,7 +51,7 @@ const Home = () => {
     <div className="container align-content-center" style={{height: '100vh'}}>
 
       <div className="row">
-        <div className="col my-5">
+        <div className="col my-5" style={{marginRight: "150px"}}>
 
           <div className="row justify-content-center">
             <div style={{ maxWidth: "150px" }}>
@@ -103,7 +103,7 @@ const Home = () => {
 
 
         </div>
-        <div className="col py-5 mt-5">
+        <div className="col py-5 mt-5" style={{marginLeft: "150px"}}>
           <h2 className="text-center">Acompanhe seu pedido.</h2>
           <div className="row">
             <div className="col">
