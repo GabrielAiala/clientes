@@ -1,11 +1,9 @@
 'use client'
 
 import { ChangeEvent, useState } from "react";
-// import { createData } from "../api/metodos";
-import { useRouter } from 'next/navigation'
+import { createData } from "../api/metodos";
 
 export default function Home() {
-  const router = useRouter()
   const [formData, setFormData] = useState({
     nome: '',
     telefone: '',
@@ -24,11 +22,15 @@ export default function Home() {
     e.preventDefault();
     console.log('aee');
     console.log(formData)
-    // createData('api/clientes', formData)
-    //   .then(() => {
-    //     router.push('/');
-    //   })
-    //   .catch((error) => console.log('erro',error));
+    createData(formData)
+      .then(() => {
+        setFormData({
+          nome: '',
+          telefone: '',
+          pedido: '',
+        })
+      })
+      .catch((error) => console.log('erro',error));
   }
   
 

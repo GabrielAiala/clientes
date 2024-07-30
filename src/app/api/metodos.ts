@@ -21,9 +21,9 @@ export const fetchData = async (endpoint: string) => {
 };
 
 // Método para fazer uma requisição UPDATE
-export const createData = async (endpoint: string, newData: any) => {
+export const createData = async (newData: any) => {
   try {
-    const response = await axios.post(`/${endpoint}`, newData);
+    const response = await axios.post('/api/clientes', {...newData, show: true, isDone: false});
     return response.data;
   } catch (error) {
     console.error('Error updating data:', error);

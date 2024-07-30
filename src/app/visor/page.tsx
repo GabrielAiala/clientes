@@ -52,32 +52,32 @@ const Home = () => {
         <div className="col my-5">
 
           <div className="row justify-content-center">
-            <div style={{ maxWidth: "48px" }}>
-              <img src="/logo.jpeg" alt="Logo" className="rounded-circle" width={48} />
+            <div style={{ maxWidth: "96px" }}>
+              <img src="/logo.jpeg" alt="Logo" className="rounded-circle" width={96} />
             </div>
           </div>
           <div className="row">
-            <p className="fw-bold text-center">Estação de café</p>
+            <h1 className="fw-bold text-center">Estação de café</h1>
 
 
             <div className="row justify-content-center">
-              <div style={{ maxWidth: "48px" }}>
-                <img src="/logo.jpeg" alt="Logo" className="rounded-circle" width={48} />
+              <div style={{ maxWidth: "96px" }}>
+                <img src="/getCoffee.jpeg" alt="Logo" className="rounded-circle" width={96} />
               </div>
             </div>
 
-            <p className="fw-bold fs-4 ">Peça agora seu café</p>
+            <p className="fw-bold fs-4 text-center">Peça agora seu café</p>
 
             <div className="col">
               <div className="row">
                 <div className="col">
                   <div className="row">
-                    <p> 1. Escaneie o qr code</p>
+                    <p className="fs-5"> 1. Escaneie o qr code</p>
                   </div>
                   <div className="row">
                     <div className="row justify-content-center">
-                      <div style={{ maxWidth: "48px" }}>
-                        <img src="/logo.jpeg" alt="Logo" className="rounded-circle" width={48} />
+                      <div style={{ maxWidth: "96px" }}>
+                        <img src="/qrcode.jpeg" alt="Logo" width={96} />
                       </div>
                     </div>
                   </div>
@@ -85,12 +85,12 @@ const Home = () => {
 
                 <div className="col">
                   <div className="row">
-                    <p> 2. Escolha sua bebida pelo WhatsApp</p>
+                    <p className="fs-5"> 2. Escolha sua bebida pelo WhatsApp</p>
                   </div>
                   <div className="row">
                     <div className="row justify-content-center">
-                      <div style={{ maxWidth: "48px" }}>
-                        <img src="/logo.jpeg" alt="Logo" className="rounded-circle" width={48} />
+                      <div style={{ maxWidth: "96px" }}>
+                        <img src="/whats.jpg" alt="Logo"  width={96} />
                       </div>
                     </div>
                   </div>
