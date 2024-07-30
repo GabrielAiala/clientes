@@ -52,8 +52,8 @@ const Home = () => {
         <div className="col my-5">
 
           <div className="row justify-content-center">
-            <div style={{ maxWidth: "96px" }}>
-              <img src="/logo.jpeg" alt="Logo" className="rounded-circle" width={96} />
+            <div style={{ maxWidth: "150px" }}>
+              <img src="/logo.jpeg" alt="Logo" className="rounded-circle" width={150} />
             </div>
           </div>
           <div className="row">
@@ -61,8 +61,8 @@ const Home = () => {
 
 
             <div className="row justify-content-center">
-              <div style={{ maxWidth: "96px" }}>
-                <img src="/getCoffee.jpeg" alt="Logo" className="rounded-circle" width={96} />
+              <div style={{ maxWidth: "192px" }}>
+                <img src="/getCoffee.jpeg" alt="Logo" className="rounded-circle" width={192} />
               </div>
             </div>
 
@@ -76,8 +76,8 @@ const Home = () => {
                   </div>
                   <div className="row">
                     <div className="row justify-content-center">
-                      <div style={{ maxWidth: "96px" }}>
-                        <img src="/qrcode.jpeg" alt="Logo" width={96} />
+                      <div style={{ maxWidth: "192px" }}>
+                        <img src="/qrcode.jpeg" alt="Logo" width={192} />
                       </div>
                     </div>
                   </div>
@@ -89,8 +89,8 @@ const Home = () => {
                   </div>
                   <div className="row">
                     <div className="row justify-content-center">
-                      <div style={{ maxWidth: "96px" }}>
-                        <img src="/whats.jpg" alt="Logo"  width={96} />
+                      <div style={{ maxWidth: "150px" }}>
+                        <img src="/whats.jpg" alt="Logo"  width={150} />
                       </div>
                     </div>
                   </div>
@@ -102,30 +102,30 @@ const Home = () => {
 
         </div>
         <div className="col py-5 mt-5">
-          <p className="text-center">Acompanhe seu pedido.</p>
+          <h3 className="text-center">Acompanhe seu pedido.</h3>
           <div className="row">
             <div className="col">
               <div className="row">
-                <p className="text-center">Em preparo</p>
+                <p className="text-center fs-5">Em preparo</p>
               </div>
               <div className="row row-cols-2">
                 {preparo.map((pedido) => (
                   <div className="col" key={pedido.id}>
-                    <p className="text-center">{pedido.telefone.substr(pedido.telefone.length - 4, 4)}</p>
+                    <p className="text-center fs-5">{pedido.id}</p>
                   </div>
                 ))}
               </div>
             </div>
-            <div style={{ border: 'solid 1px black', height: '300px', width: '0', padding: '0' }}></div>
+            <div style={{ border: 'solid 1px black', height: '600px', width: '0', padding: '0' }}></div>
             <div className="col">
               <div className="row">
-                <p className="text-center">Prontas!</p>
+                <p className="text-center fs-5">Prontas!</p>
               </div>
 
               <div className="row row-cols-2">
                 {prontos.map((pedido) => (
                   <div className="col" key={pedido.id}>
-                    <p className="text-center">{pedido.telefone.substr(pedido.telefone.length - 4, 4)}</p>
+                    <p className="text-center fs-5">{pedido.id}</p>
                   </div>
                 ))}
               </div>
